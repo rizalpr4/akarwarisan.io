@@ -26,9 +26,14 @@
 
         /* Header */
         header {
-            padding: 2rem 1rem;
+            padding: 1rem 1rem 2rem;
             background: #1f1f1f;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        header img {
+            width: 80px;
+            height: auto;
+            margin-bottom: 0.5rem;
         }
         header h1 {
             font-size: 2.5rem;
@@ -44,58 +49,20 @@
         nav a {
             margin: 0 1rem;
             font-size: 1rem;
-            position: relative;
-        }
-        nav a:hover::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: -5px;
-            height: 2px;
-            width: 100%;
-            background: #f5c57f;
-        }
-        .dropdown {
-            display: inline-block;
-            position: relative;
-        }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background: #2a2a2a;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-            padding: 0.5rem 0;
-            z-index: 1000;
-        }
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-        .dropdown-content a {
-            display: block;
-            padding: 0.5rem 1rem;
-            color: #d1a05a;
-            white-space: nowrap;
-        }
-        .dropdown-content a:hover {
-            background: #1f1f1f;
+            cursor: pointer;
         }
 
-        /* Main Content */
-        main {
-            padding: 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
+        /* Catalog Section */
         .catalog {
             display: flex;
-            justify-content: center;
+            justify-content: flex-start; /* Align items to the left */
             gap: 1rem;
-            flex-wrap: wrap;
-            padding: 1rem 0;
+            padding: 1rem;
+            overflow-x: scroll; /* Enable horizontal scrolling */
+            flex-wrap: nowrap; /* Prevent wrapping of items */
         }
         .catalog-item {
-            position: relative;
-            width: 200px;
+            min-width: 200px;
             height: 300px;
             background: #2f2f2f;
             border-radius: 8px;
@@ -103,18 +70,69 @@
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .catalog-item:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
-        }
         .catalog-item img {
             width: 100%;
             height: 100%;
             border-radius: 8px;
         }
+        .catalog-item:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+        }
+
+    details {
+        margin: 1rem 0;
+        padding: 0.5rem;
+        background: #333333;
+        border-radius: 5px;
+        border: 1px solid #444444;
+    }
+
+    summary {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #d1a05a;
+        cursor: pointer;
+        padding: 0.5rem;
+        background-color: #2f2f2f;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    summary:hover {
+        background-color: #d1a05a;
+        color: #1f1f1f;
+    }
+
+    summary:focus {
+        outline: 2px solid #d1a05a;
+    }
+
+    details[open] summary {
+        background-color: #d1a05a;
+        color: #1f1f1f;
+    }
+
+    p {
+        font-size: 1rem;
+        color: #e1e1e1;
+        padding: 0.5rem;
+        border-radius: 5px;
+    }
+
+        /* Story Section */
         .story {
             display: none;
-            text-align: justify; /* Mengatur teks rata kanan-kiri */
+            max-width: 700px;
+            margin: 2rem auto;
+            text-align: justify;
+            padding: 1rem;
+            background: #2f2f2f;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            line-height: 1.8;
         }
         .story.active {
             display: block;
@@ -132,39 +150,39 @@
 </head>
 <body>
     <header>
+        <img src="Logo.png" alt="Logo Akar Warisan">
         <h1>Selamat Datang di Akar Warisan</h1>
         <p>Menyajikan kumpulan cerita pendek yang seru dan penuh pembelajaran</p>
         <nav>
-            <a href="#catalog">Katalog</a>
-            <div class="dropdown">
-                <a href="#">Kategori</a>
-                <div class="dropdown-content">
-                    <a href="#">Fantasi</a>
-                    <a href="#">Filosofi</a>
-                    <a href="#">Politik</a>
-                    <a href="#">Perang</a>
-                </div>
-            </div>
+            <a onclick="showAllCatalog()">Halaman Utama</a>
+            <a onclick="filterCategory('politik')">Politik</a>
+            <a onclick="filterCategory('fantasi')">Fantasi</a>
+            <a onclick="filterCategory('filosofi')">Filosofi</a>
         </nav>
     </header>
 
     <main>
+        <!-- Catalog Section -->
         <section id="catalog" class="catalog">
-            <div class="catalog-item" onclick="showStory('story1')">
-                <img src="img/REPUBLIK MERAH.png" alt="Cover Cerita 1">
+            <div class="catalog-item" data-category="politik" onclick="showStory('story1')">
+                <img src="img/REPUBLIK MERAH.png" alt="REPUBLIK MERAH">
             </div>
-            <div class="catalog-item" onclick="showStory('story2')">
+            <div class="catalog-item" data-category="fantasi" onclick="showStory('story2')">
                 <img src="cover2.jpg" alt="Segera Datang">
             </div>
-            <div class="catalog-item" onclick="showStory('story3')">
+            <div class="catalog-item" data-category="filosofi" onclick="showStory('story3')">
                 <img src="cover3.jpg" alt="Segera Datang">
             </div>
         </section>
 
+        <!-- Stories Section -->
         <section id="story1" class="story">
             <h2>REPUBLIK MERAH</h2>
-            <h4>(Bagian 1 - Prolog)</h4>
-            <p>Hari itu, 5 Mei 1818, di sebuah rumah di Mosel, Trier, Jerman, seorang anak lelaki baru saja lahir ke dunia, yang diberi nama Karl Heinrich Marx. Ayahnya, Heinrich Marx, seorang pengacara yang dihormati pada zamannya, dan ibunya, Henriette Pressburg menyambut kehadiran anak ketiga mereka dengan penuh harapan.</p>
+
+            <!-- Dropdown for each part -->
+            <details>
+                <summary>Bagian 1 - Prolog</summary>
+ <p>Hari itu, 5 Mei 1818, di sebuah rumah di Mosel, Trier, Jerman, seorang anak lelaki baru saja lahir ke dunia, yang diberi nama Karl Heinrich Marx. Ayahnya, Heinrich Marx, seorang pengacara yang dihormati pada zamannya, dan ibunya, Henriette Pressburg menyambut kehadiran anak ketiga mereka dengan penuh harapan.</p>
             <p>“Henriette, lihat dia. Bayi ini akan tumbuh menjadi orang besar,” kata Heinrich dengan suara penuh kebanggaan sambil menggendong Karl kecil.</p>
             <p>“Aku hanya berharap dia tumbuh dengan jiwa yang kuat, Heinrich. karena dunia ini akan menjadi perjalanan yang panjang baginya,” jawab Henriette dengan lembut.</p>
             <p>Karl tumbuh di tengah keluarga besar dengan delapan saudara lainnya. Rumah mereka di Trier selalu dipenuhi suara tawa, obrolan hangat, dan diskusi yang seringkali dipicu oleh Heinrich. Sebagai pengacara, Heinrich sering berbicara tentang hukum dan keadilan, yang menjadi bahan renungan Karl kecil sejak dini.</p>
@@ -191,28 +209,50 @@
             <p>“Engels,” panggil Karl sambil menunjuk sebuah kalimat di naskah yang sedang ia tulis. “Apa menurutmu ini terlalu keras?”</p>
             <p>Engels membaca sekilas, lalu tertawa. “Karl, jika mereka menganggapmu berbahaya, pastikan kau menjadi ancaman yang tidak bisa mereka abaikan.”</p>
             <p>Mereka tertawa bersama, suara mereka menggema di salah satu ruangan dari museum itu. Malam itu, di bawah langit London yang kelam, lahirlah gagasan-gagasan besar yang kelak dikenal dunia sebagai dasar pemikiran Karl Marx. Seorang pemikir, seorang revolusioner, dan seorang pencipta utopia.</p>
+            </details>
+
+<!--             <details>
+                <summary>Tombol Bagian 2 - Pukulan Awal</summary>
+                <p>Bagian kedua cerita dimulai di sini, dengan pergulatan awal dalam perjalanan hidup Karl Marx...</p>
+            </details> -->
+
+<!--             <details>
+                <summary>Tombol Bagian 3 - Puncak Perjuangan</summary>
+                <p>Bagian ketiga cerita dimulai di sini, ketika Marx mulai memikirkan konsep-konsep besar yang akan mengubah dunia...</p>
+            </details> -->
+
         </section>
 
         <section id="story2" class="story">
-            <h2>Segera Datang</h2>
-            <p>....</p>
+            <h2>Fantasi - Coming Soon</h2>
+            <p>Cerita ini masih dalam tahap pengembangan.</p>
         </section>
 
         <section id="story3" class="story">
-            <h2>Segera Datang</h2>
-            <p>....</p>
+            <h2>Filosofi - Coming Soon</h2>
+            <p>Cerita ini masih dalam tahap pengembangan.</p>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 Akar Warisan</p>
+        <p>&copy; 2025 Akar Warisan. Semua hak cipta dilindungi.</p>
     </footer>
 
     <script>
-        function showStory(storyId) {
-            document.querySelectorAll('.story').forEach(story => {
-                story.classList.remove('active');
+        function showAllCatalog() {
+            document.querySelectorAll('.catalog-item').forEach(item => item.style.display = 'block');
+            document.querySelectorAll('.story').forEach(story => story.classList.remove('active'));
+        }
+
+        function filterCategory(category) {
+            document.querySelectorAll('.catalog-item').forEach(item => {
+                item.style.display = item.dataset.category === category ? 'block' : 'none';
             });
+            document.querySelectorAll('.story').forEach(story => story.classList.remove('active'));
+        }
+
+        function showStory(storyId) {
+            document.querySelectorAll('.story').forEach(story => story.classList.remove('active'));
             document.getElementById(storyId).classList.add('active');
         }
     </script>
